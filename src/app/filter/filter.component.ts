@@ -8,12 +8,14 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, View
   styleUrl: './filter.component.scss'
 })
 export class FilterComponent implements AfterViewInit {
+  readonly disabledColor = '#C6C6C6';
+  readonly mainColor = '#e3068c';
+
   @Input({ required: true }) min = 1;
   @Input({ required: true }) max = 100;
   @Input({ required: true }) start = 1;
 
   @Output() valueChange = new EventEmitter<{ from: number, to: number }>();
-
 
   constructor() { }
 
@@ -22,8 +24,6 @@ export class FilterComponent implements AfterViewInit {
   @ViewChild('fromInput') fromInput!: ElementRef<HTMLInputElement>;
   @ViewChild('toInput') toInput!: ElementRef<HTMLInputElement>;
 
-  readonly disabledColor = '#C6C6C6';
-  readonly mainColor = '#e3068c';
 
   ngAfterViewInit() {
     this.fillSlider(this.fromSlider.nativeElement, this.toSlider.nativeElement, this.disabledColor, this.mainColor, this.toSlider.nativeElement);
