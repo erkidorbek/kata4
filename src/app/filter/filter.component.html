@@ -1,0 +1,16 @@
+<div class="range_container">
+    <div class="form_control">
+        <div class="form_control_container">
+            <input #fromInput class="form_control_container__time__input" type="number" id="fromInput" value="0" min="0"
+                max="100" (input)="handleFromInput()" />
+        </div>
+        <div class="form_control_container">
+            <input #toInput class="form_control_container__time__input" type="number" id="toInput" value="100" min="0"
+                max="100" (input)="handleToInput()" />
+        </div>
+    </div>
+    <div class="sliders_control">
+        <input #fromSlider id="fromSlider" type="range" value="0" min="0" max="100" (input)="handleFromSlider()" />
+        <input #toSlider id="toSlider" type="range" value="100" min="0" max="100" (input)="handleToSlider()" />
+    </div>
+</div>

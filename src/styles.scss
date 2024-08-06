@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+html {
+  overflow-y: scroll; /* Always show scrollbar to avoid page jumping */
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #e3068c;
+}

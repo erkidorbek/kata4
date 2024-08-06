@@ -1,1 +1,37 @@
-<router-outlet />
+<!-- <router-outlet /> -->
+
+
+<div class="container">
+  <div class="filters">
+    <h1>Filters</h1>
+
+    <div class="filter">
+      <input type="number" [min]="productService.minPrice" [max]="productService.maxPrice" [value]="minFilter()"
+        (input)="minFilterUpdate($event)" />
+      <input type="range" [min]="productService.minPrice" [max]="productService.maxPrice" [value]="minFilter()"
+        (input)="minFilterUpdate($event)" />
+    </div>
+
+    <div class="filter steps">
+      <input type="number" [min]="productService.minPrice" [max]="productService.maxPrice" [value]="minFilter()"
+        (input)="minFilterUpdate($event)" />
+      <input type="range" [min]="productService.minPrice" [max]="productService.maxPrice" [step]="productService.step"
+        [value]="minFilter()" (input)="minFilterUpdate($event)" />
+    </div>
+
+    <app-filter [min]="1" [max]="100" [start]="1"></app-filter>
+
+  </div>
+  <div>
+    <h1>Product list</h1>
+    <div class="products-list">
+      @for (product of products(); track product.id) {
+      <div class="product">
+        <h2>{{ product.title}}</h2>
+        <p>{{product.description}}</p>
+        <p>{{product.price}} €</p>
+      </div>
+      }
+    </div>
+  </div>
+</div>
