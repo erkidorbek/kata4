@@ -17,13 +17,10 @@ export class AppComponent {
   maxFilter = signal(this.productService.maxPrice);
   products = computed(() => this.productService.filterProducts(this.minFilter(), this.maxFilter()));
 
-  min = this.productService.minPrice;
-  max = this.productService.maxPrice;
+  productsMinPrice = this.productService.minPrice;
+  productsMaxPrice = this.productService.maxPrice;
 
   constructor(public productService: ProductService) {
-    effect(() => {
-      console.log(this.minFilter(), this.maxFilter());
-    })
   }
 
   updateFilter(from: number, to?: number) {

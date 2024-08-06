@@ -38,8 +38,11 @@ export class FilterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.minValue.update(() => this.min());
-    this.maxValue.update(() => this.max());
+    // TODO: find out why setTimeout is needed, since this is not working without it
+    setTimeout(() => {
+      this.minValue.set(this.min());
+      this.maxValue.set(this.max());
+    }, 1)
   }
 
   // controlToInput(toSlider: HTMLInputElement, fromInput: HTMLInputElement, toInput: HTMLInputElement, controlSlider: HTMLInputElement) {
