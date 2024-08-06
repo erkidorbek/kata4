@@ -14,6 +14,7 @@ export class FilterComponent implements AfterViewInit {
   @Input({ required: true }) min = 1;
   @Input({ required: true }) max = 100;
   @Input({ required: true }) start = 1;
+  @Input() range = false;
 
   @Output() valueChange = new EventEmitter<{ from: number, to: number }>();
 

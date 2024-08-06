@@ -5,7 +5,7 @@
   <div class="filters">
     <h1>Filters</h1>
 
-    <div class="filter">
+    <!-- <div class="filter">
       <input type="number" [min]="productService.minPrice" [max]="productService.maxPrice" [value]="minFilter()"
         (input)="minFilterUpdate($event)" />
       <input type="range" [min]="productService.minPrice" [max]="productService.maxPrice" [value]="minFilter()"
@@ -17,9 +17,12 @@
         (input)="minFilterUpdate($event)" />
       <input type="range" [min]="productService.minPrice" [max]="productService.maxPrice" [step]="productService.step"
         [value]="minFilter()" (input)="minFilterUpdate($event)" />
-    </div>
+    </div> -->
 
-    <app-filter [min]="1" [max]="100" [start]="1"></app-filter>
+    <app-filter [min]="1" [max]="100" [start]="1" [range]="false"></app-filter>
+
+    <app-filter [min]="1" [max]="100" [start]="1" [range]="true"></app-filter>
+
 
   </div>
   <div>
