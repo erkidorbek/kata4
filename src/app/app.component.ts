@@ -1,4 +1,4 @@
-import { Component, ModelSignal, computed, effect, model, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ProductService } from './services/product.service';
 import { AsyncPipe } from '@angular/common';
@@ -17,6 +17,9 @@ export class AppComponent {
   products = computed(() => {
     return this.productService.filterProducts(this.minFilter())
   });
+
+  min = this.productService.minPrice;
+  max = this.productService.maxPrice;
 
   constructor(public productService: ProductService) { }
 

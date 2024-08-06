@@ -1,29 +1,11 @@
 <!-- <router-outlet /> -->
-
-
 <div class="container">
   <div class="filters">
     <h1>Filters</h1>
 
-    <!-- <div class="filter">
-      <input type="number" [min]="productService.minPrice" [max]="productService.maxPrice" [value]="minFilter()"
-        (input)="minFilterUpdate($event)" />
-      <input type="range" [min]="productService.minPrice" [max]="productService.maxPrice" [value]="minFilter()"
-        (input)="minFilterUpdate($event)" />
-    </div>
-
-    <div class="filter steps">
-      <input type="number" [min]="productService.minPrice" [max]="productService.maxPrice" [value]="minFilter()"
-        (input)="minFilterUpdate($event)" />
-      <input type="range" [min]="productService.minPrice" [max]="productService.maxPrice" [step]="productService.step"
-        [value]="minFilter()" (input)="minFilterUpdate($event)" />
-    </div> -->
-
-    <app-filter [min]="1" [max]="100" [start]="1" [range]="false"></app-filter>
-
-    <app-filter [min]="1" [max]="100" [start]="1" [range]="true"></app-filter>
-
-
+    <app-filter [min]="min" [max]="max" [range]="false"></app-filter>
+    <app-filter [min]="min" [max]="max" [range]="false" [steps]="true"></app-filter>
+    <app-filter [min]="min" [max]="max" [range]="true"></app-filter>
   </div>
   <div>
     <h1>Product list</h1>

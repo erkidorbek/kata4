@@ -1814,9 +1814,9 @@ export class ProductService {
   products: ProductT[] = products;
   minPrice = Math.floor(products.reduce((acc, curr) => Math.min(acc, curr.price), Infinity));
   maxPrice = Math.floor(products.reduce((acc, curr) => Math.max(acc, curr.price), -Infinity));
-  step = (this.maxPrice - this.minPrice) / 10;
 
-  constructor() { }
+  constructor() {
+  }
 
   filterProducts(minPrice: number, maxPrice?: number): ProductT[] {
     return this.products.filter(product => {
