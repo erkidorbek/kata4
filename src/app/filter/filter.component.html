@@ -5,12 +5,12 @@
             [min]="min()" [max]="max()" (input)="handleMin($event)" />
     </div>
 </div>
-<div class="sliders_control">
+<div class="sliders_control" [class.with-steps]="!!steps()">
     @if (steps()) {
-    <input #fromSlider id="min" type="range" [value]="minValue()" [min]="min()" [max]="max()"
+    <input #fromSlider id="fromSlider" type="range" [value]="minValue()" [min]="min()" [max]="max()"
         (input)="handleMin($event)" [step]="stepValue()" />
     } @else {
-    <input #fromSlider id="min" type="range" [value]="minValue()" [min]="min()" [max]="max()"
+    <input #fromSlider id="fromSlider" type="range" [value]="minValue()" [min]="min()" [max]="max()"
         (input)="handleMin($event)" />
     }
 </div>

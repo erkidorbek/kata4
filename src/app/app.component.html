@@ -2,10 +2,14 @@
 <div class="container">
   <div class="filters">
     <h1>Filters</h1>
+    <app-filter [min]="min" [max]="max" [range]="false"
+      (valueChange)="updateFilter($event.from, $event.to)"></app-filter>
 
-    <app-filter [min]="min" [max]="max" [range]="false"></app-filter>
-    <app-filter [min]="min" [max]="max" [range]="false" [steps]="true"></app-filter>
-    <app-filter [min]="min" [max]="max" [range]="true"></app-filter>
+    <app-filter [min]="min" [max]="max" [range]="false" [steps]="true"
+      (valueChange)="updateFilter($event.from, $event.to)"></app-filter>
+
+    <app-filter [min]="min" [max]="max" [range]="true"
+      (valueChange)="updateFilter($event.from, $event.to)"></app-filter>
   </div>
   <div>
     <h1>Product list</h1>

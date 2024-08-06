@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { max } from 'rxjs';
 
 export interface ProductT {
   id: number;
@@ -1813,12 +1812,18 @@ const products: any[] = [
 export class ProductService {
   products: ProductT[] = products;
   minPrice = Math.floor(products.reduce((acc, curr) => Math.min(acc, curr.price), Infinity));
-  maxPrice = Math.floor(products.reduce((acc, curr) => Math.max(acc, curr.price), -Infinity));
+  maxPrice = Math.ceil(products.reduce((acc, curr) => Math.max(acc, curr.price), -Infinity));
 
   constructor() {
   }
 
   filterProducts(minPrice: number, maxPrice?: number): ProductT[] {
+    return this.products.filter(product => {
+      return product.price >= minPrice && (maxPrice ? product.price <= maxPrice : true);
+    });
+  }
+
+  filterProductsByPercent(minPrice: number, maxPrice?: number): ProductT[] {
     return this.products.filter(product => {
       return product.price >= minPrice && (maxPrice ? product.price <= maxPrice : true);
     });

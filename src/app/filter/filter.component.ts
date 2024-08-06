@@ -13,30 +13,33 @@ export class FilterComponent implements OnInit {
 
   min = input.required<number>()
   max = input.required<number>()
-  steps = input<boolean>();
+  steps = input<boolean>(false);
   range = input<boolean>(false);
 
   minValue = signal(1);
   maxValue = signal(100);
   stepValue = computed(() => Math.floor((this.max() - this.min()) / 10));
 
-  @Output() valueChange = new EventEmitter<{ from: number, to?: number }>();
-
-  constructor() {
-    effect(() => {
-      this.fillSlider(this.disabledColor, this.mainColor, this.toSlider.nativeElement);
-      this.valueChange.emit({ from: this.minValue(), to: this.maxValue() });
-    })
-  }
+  @Output() valueChange = new EventEmitter<{ from: number, to: number }>();
 
   @ViewChild('fromSlider') fromSlider!: ElementRef<HTMLInputElement>;
   @ViewChild('toSlider') toSlider!: ElementRef<HTMLInputElement>;
 
+  constructor() {
+    effect(() => {
+      if (!!this.toSlider) {
+        this.fillMultiSlider(this.toSlider.nativeElement);
+      } else if (!!this.fromSlider) {
+        this.fillSingleSlider(this.fromSlider.nativeElement);
+      }
+
+      this.valueChange.emit({ from: this.minValue(), to: this.maxValue() ?? this.max() });
+    })
+  }
+
   ngOnInit(): void {
     this.minValue.update(() => this.min());
     this.maxValue.update(() => this.max());
-
-    // this.stepValue.update(() => (this.max() - this.min() / this.steps()));
   }
 
   // controlToInput(toSlider: HTMLInputElement, fromInput: HTMLInputElement, toInput: HTMLInputElement, controlSlider: HTMLInputElement) {
@@ -51,19 +54,31 @@ export class FilterComponent implements OnInit {
   //   }
   // }
 
-  fillSlider(sliderColor: string, rangeColor: string, controlSlider: HTMLInputElement) {
+  fillMultiSlider(controlSlider: HTMLInputElement) {
     const rangeDistance = computed(() => this.max() - this.min())
     const fromPosition = computed(() => this.minValue() - this.min());
     const toPosition = computed(() => this.maxValue() - this.min());
 
     controlSlider.style.background = `linear-gradient(
       to right,
-      ${sliderColor} 0%,
-      ${sliderColor} ${(fromPosition()) / (rangeDistance()) * 100}%,
-      ${rangeColor} ${((fromPosition()) / (rangeDistance())) * 100}%,
-      ${rangeColor} ${(toPosition()) / (rangeDistance()) * 100}%, 
-      ${sliderColor} ${(toPosition()) / (rangeDistance()) * 100}%, 
-      ${sliderColor} 100%)`;
+      ${this.disabledColor} 0%,
+      ${this.disabledColor} ${(fromPosition()) / (rangeDistance()) * 100}%,
+      ${this.mainColor} ${((fromPosition()) / (rangeDistance())) * 100}%,
+      ${this.mainColor} ${(toPosition()) / (rangeDistance()) * 100}%, 
+      ${this.disabledColor} ${(toPosition()) / (rangeDistance()) * 100}%, 
+      ${this.disabledColor} 100%)`;
+  }
+
+  fillSingleSlider(controlSlider: HTMLInputElement) {
+    const rangeDistance = computed(() => this.max() - this.min())
+    const fromPosition = computed(() => this.minValue() - this.min());
+
+    controlSlider.style.background = `linear-gradient(
+      to right,
+      ${this.mainColor} 0%,
+      ${this.mainColor} ${((fromPosition()) / (rangeDistance())) * 100}%,
+      ${this.disabledColor} ${(fromPosition()) / (rangeDistance()) * 100}%,
+      ${this.disabledColor} 100%)`;
   }
 
   setToggleAccessible(currentTarget: HTMLInputElement) {
@@ -83,7 +98,6 @@ export class FilterComponent implements OnInit {
   handleMax(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     this.maxValue.update(() => parseInt(value));
-    // this.valueChange.emit({ from: this.minValue(), to: this.maxValue() });
   }
 }
 
