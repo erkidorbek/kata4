@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, Signal, ViewChild, computed, effect, input, signal } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild, computed, effect, input, signal } from '@angular/core';
 
 @Component({
   selector: 'app-filter',
@@ -33,8 +33,17 @@ export class FilterComponent implements OnInit {
         this.fillSingleSlider(this.fromSlider.nativeElement);
       }
 
+      const from = this.minValue();
+      const to = this.maxValue();
+      if (from > to) {
+        this.minValue.set(to)
+      }
+      if (to < from) {
+        this.maxValue.set(from)
+      }
+
       this.valueChange.emit({ from: this.minValue(), to: this.maxValue() ?? this.max() });
-    })
+    }, { allowSignalWrites: true })
   }
 
   ngOnInit(): void {
@@ -45,17 +54,17 @@ export class FilterComponent implements OnInit {
     }, 1)
   }
 
-  // controlToInput(toSlider: HTMLInputElement, fromInput: HTMLInputElement, toInput: HTMLInputElement, controlSlider: HTMLInputElement) {
-  //   const [from, to] = this.getParsed(fromInput, toInput);
-  //   this.fillSlider(this.disabledColor, this.mainColor, controlSlider);
-  //   this.setToggleAccessible(toInput);
-  //   if (from <= to) {
-  //     toSlider.value = to.toString();
-  //     toInput.value = to.toString();
-  //   } else {
-  //     toInput.value = from.toString();
-  //   }
-  // }
+  fillSingleSlider(controlSlider: HTMLInputElement) {
+    const rangeDistance = computed(() => this.max() - this.min())
+    const fromPosition = computed(() => this.minValue() - this.min());
+
+    controlSlider.style.background = `linear-gradient(
+      to right,
+      ${this.mainColor} 0%,
+      ${this.mainColor} ${((fromPosition()) / (rangeDistance())) * 100}%,
+      ${this.disabledColor} ${(fromPosition()) / (rangeDistance()) * 100}%,
+      ${this.disabledColor} 100%)`;
+  }
 
   fillMultiSlider(controlSlider: HTMLInputElement) {
     const rangeDistance = computed(() => this.max() - this.min())
@@ -69,18 +78,6 @@ export class FilterComponent implements OnInit {
       ${this.mainColor} ${((fromPosition()) / (rangeDistance())) * 100}%,
       ${this.mainColor} ${(toPosition()) / (rangeDistance()) * 100}%, 
       ${this.disabledColor} ${(toPosition()) / (rangeDistance()) * 100}%, 
-      ${this.disabledColor} 100%)`;
-  }
-
-  fillSingleSlider(controlSlider: HTMLInputElement) {
-    const rangeDistance = computed(() => this.max() - this.min())
-    const fromPosition = computed(() => this.minValue() - this.min());
-
-    controlSlider.style.background = `linear-gradient(
-      to right,
-      ${this.mainColor} 0%,
-      ${this.mainColor} ${((fromPosition()) / (rangeDistance())) * 100}%,
-      ${this.disabledColor} ${(fromPosition()) / (rangeDistance()) * 100}%,
       ${this.disabledColor} 100%)`;
   }
 
